@@ -5,75 +5,91 @@
 <title>Para Nayeli ❤️</title>
 
 <style>
-
 body{
+margin:0;
 background:black;
 color:white;
 font-family:Arial;
 text-align:center;
-padding-top:80px;
 overflow:hidden;
 }
 
-h1{
-font-size:35px;
+canvas{
+position:fixed;
+top:0;
+left:0;
+}
+
+.text{
+position:absolute;
+top:40%;
+width:100%;
+text-align:center;
+font-size:30px;
 color:#ff4da6;
 }
 
 p{
-font-size:20px;
+font-size:18px;
 padding:20px;
 }
-
-.heart{
-position:fixed;
-top:-10px;
-font-size:24px;
-animation:fall linear infinite;
-}
-
-@keyframes fall{
-to{
-transform:translateY(100vh);
-}
-}
-
 </style>
 </head>
 
 <body>
 
-<h1>🌸 Para Nayeli 🌸</h1>
-
+<div class="text">
+<h1>Para Nayeli 🌹</h1>
 <p>
 Nayeli, estas flores son para ti.  
-Aunque sean digitales representan lo mucho que te quiero.  
-
 Desde que llegaste a mi vida todo tiene más color.  
-Eres alguien muy especial para mí. 💐
+Eres alguien muy especial para mí ❤️
 </p>
-
-<div style="font-size:60px">
-🌸🌷🌹🌺🌸
 </div>
 
+<canvas id="c"></canvas>
+
 <script>
+var c=document.getElementById("c");
+var ctx=c.getContext("2d");
 
-function createHeart(){
-const heart=document.createElement("div");
-heart.classList.add("heart");
-heart.innerHTML="❤️";
-heart.style.left=Math.random()*100+"vw";
-heart.style.animationDuration=Math.random()*3+2+"s";
-document.body.appendChild(heart);
+c.width=window.innerWidth;
+c.height=window.innerHeight;
 
-setTimeout(()=>{
-heart.remove();
-},5000);
+var hearts=[];
+
+for(let i=0;i<100;i++){
+hearts.push({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+size:Math.random()*4+1,
+speed:Math.random()*1+0.5
+});
 }
 
-setInterval(createHeart,300);
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.2)";
+ctx.fillRect(0,0,c.width,c.height);
 
+ctx.fillStyle="red";
+
+hearts.forEach(h=>{
+ctx.beginPath();
+ctx.arc(h.x,h.y,h.size,0,Math.PI*2);
+ctx.fill();
+
+h.y+=h.speed;
+
+if(h.y>c.height){
+h.y=0;
+h.x=Math.random()*c.width;
+}
+});
+
+requestAnimationFrame(draw);
+}
+
+draw();
 </script>
 
 </body>
